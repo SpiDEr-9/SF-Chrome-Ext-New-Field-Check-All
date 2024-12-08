@@ -26,12 +26,30 @@ function injectContentScript() {
             // console.log('visibleAll---   '+visibleAll.checked);
             // console.log('visibleAll--- 111  '+visibleAll.click());
             // console.log('visibleAll---  22 '+visibleAll.checked);
+            
             console.log('next---------11111111: ');
             // document.getElementsByName('goNext').click();
             const button = document.querySelector('[name="goNext"]');
-            console.log('next22222222222222222222 ');
+            let wizardHeader = document.querySelector('.pbWizardHeader');
+            const timerSpan = document.createElement('span');
             // button.click();
-            console.log('next22222222222222222222 ');
+            timerSpan.className = 'timer_next'
+
+            let count = 3
+
+            var timerInterval = setInterval(() => {
+              if (count <= 0) {
+                clearInterval(timerInterval); // Stop the timer when it reaches 0
+                timerSpan.innerHTML = "redirecting to next page....!";
+                return;
+              }
+        
+              timerSpan.innerHTML = `redirecting to next page in ${count} seconds`;
+              count -= 1; // Decrement the countdown by 1 second
+              wizardHeader.appendChild(timerSpan);
+            }, 1000);
+
+
           }
       
           /*if (activeTabUrl && activeTabUrl.includes(sfNewFieldUrl)) {

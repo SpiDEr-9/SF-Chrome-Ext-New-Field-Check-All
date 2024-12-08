@@ -24,3 +24,14 @@
     -webkit-border-radius: 3px;
     border-radius: 3px;
 }
+
+
+.timer_next{
+    color: red;
+    display: flex;
+    text-align: center;
+    width: -webkit-fill-available;
+    padding: 1rem;
+    justify-content: center;
+    font-weight: 700;
+}

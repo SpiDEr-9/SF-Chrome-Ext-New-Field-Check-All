@@ -16,7 +16,7 @@
       "matches": ["<all_urls>"],
       
       "js": ["content.js"],
-      
+      "css": ["main.css"],
       "run_at": "document_end"
       
       },
@@ -24,6 +24,7 @@
         "matches": ["*://*/setup/field/NewCustomFieldStageManager"],
         "js": ["sfadmin.js"],    
         "all_frames": false,
+        "css": ["main.css"],
         "match_origin_as_fallback": false,
         "match_about_blank": false,
         "run_at": "document_idle",
