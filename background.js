@@ -1,57 +1,74 @@
 // Function to inject a content script into the active tab
 
-
 function injectContentScript() {
-  console.log('OUTPUT : 111');
+  console.log("OUTPUT : 111");
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    console.log('OUTPUT : 222');
-    console.log('OUTPUT : 333');
+    console.log("OUTPUT : 222");
+    console.log("OUTPUT : 333");
     if (tabs.length > 0) {
-      console.log('OUTPUT : 444');
+      console.log("OUTPUT : 444");
       const activeTabId = tabs[0].id;
-      console.log('OUTPUT :555');
+      console.log("OUTPUT :555");
       chrome.scripting.executeScript({
         target: { tabId: activeTabId },
         func: () => {
           let activeTabUrl = window.location.href;
-          let sfNewFieldUrl = 'p/setup/field/NewCustomFieldStageManager';
-          console.log('OUTPUT : ',activeTabUrl);
-          // debugger;
-          console.log('OUTPUT : ',sfNewFieldUrl);
+          let sfNewFieldUrl = "p/setup/field/NewCustomFieldStageManager";
           if (activeTabUrl && activeTabUrl.includes(sfNewFieldUrl)) {
-            let visibleAll = document.getElementById('d000000000000000');
-            if (!visibleAll.checked) {
-              visibleAll.click()
-            }
-            // console.log('visibleAll---   '+visibleAll.checked);
-            // console.log('visibleAll--- 111  '+visibleAll.click());
-            // console.log('visibleAll---  22 '+visibleAll.checked);
-            
-            console.log('next---------11111111: ');
-            // document.getElementsByName('goNext').click();
-            const button = document.querySelector('[name="goNext"]');
-            let wizardHeader = document.querySelector('.pbWizardHeader');
-            const timerSpan = document.createElement('span');
-            // button.click();
-            timerSpan.className = 'timer_next'
+            let currentPage = document.querySelector(".ptRightTitle").innerText;
+            let wizardHeader = document.querySelector(".pbWizardHeader");
+            const timerSpan = document.createElement("span");
+            timerSpan.className = "timer_next";
 
-            let count = 3
-
-            var timerInterval = setInterval(() => {
-              if (count <= 0) {
-                clearInterval(timerInterval); // Stop the timer when it reaches 0
-                timerSpan.innerHTML = "redirecting to next page....!";
-                return;
+            if (currentPage == "Step 3 of 4") {
+              let visibleAll = document.getElementById("d000000000000000");
+              
+              if (!visibleAll.checked) {
+                visibleAll.click();
               }
-        
-              timerSpan.innerHTML = `redirecting to next page in ${count} seconds`;
-              count -= 1; // Decrement the countdown by 1 second
-              wizardHeader.appendChild(timerSpan);
-            }, 1000);
+              const button = document.querySelector('[name="goNext"]');
+              let wizardHeader = document.querySelector(".pbWizardHeader");
+              const timerSpan = document.createElement("span");
+              timerSpan.className = "timer_next";
 
+              let count = 3;
 
+              var timerInterval = setInterval(() => {
+                if (count <= 0) {
+                  clearInterval(timerInterval); // Stop the timer when it reaches 0
+                  timerSpan.innerHTML = "redirecting to next page....!";
+                  button.click();
+                  return;
+                }
+                timerSpan.innerHTML = `redirecting to next page in ${count} seconds`;
+                count -= 1; // Decrement the countdown by 1 second
+                wizardHeader.appendChild(timerSpan);
+              }, 1000);
+            } else if(currentPage == "Step 4 of 4") {
+              let layoutSelectAll = document.getElementById("selectAll");
+              if (!layoutSelectAll.checked) {
+                layoutSelectAll.click();
+              }
+              const timerSpan = document.createElement("span");
+              timerSpan.className = "timer_next";
+
+              let count = 3;
+
+              var timerInterval = setInterval(() => {
+                if (count <= 0) {
+                  clearInterval(timerInterval); // Stop the timer when it reaches 0
+                  timerSpan.innerHTML = "redirecting to next page....!";
+                  document.querySelector('[name="save"]').click();
+                  return;
+                }
+                timerSpan.innerHTML = `redirecting to next page in ${count} seconds`;
+                count -= 1; // Decrement the countdown by 1 second
+                wizardHeader.appendChild(timerSpan);
+              }, 1000);
+
+            }
           }
-      
+
           /*if (activeTabUrl && activeTabUrl.includes(sfNewFieldUrl)) {
             
             let wizardHeader = document.querySelector('.pbWizardHeader');
@@ -79,7 +96,7 @@ function injectContentScript() {
             }
           }*/
           console.log("Active tab URL:", window.location.href);
-        }
+        },
       });
     }
   });
@@ -87,11 +104,11 @@ function injectContentScript() {
 
 // Listener for tab activation
 // chrome.tabs.onActivated.addListener(() => {
-  
+
 //   injectContentScript();
 // });
 
-chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   if (changeInfo.status === "complete") {
     console.log("Tab has fully loaded.");
     injectContentScript();
