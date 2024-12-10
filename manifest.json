@@ -1,36 +1,65 @@
 {
-    "name": "SF SPIDER",
-    "description": "Base Level Extension",
-    "version": "1.0",
-    "manifest_version": 3,
-    "action": {
-      "default_popup": "hello.html",
-      "default_icon": "hello.png"
-    },
-    "background": {
-        "service_worker": "background.js"
-    },
-    "host_permissions": ["<all_urls>"],
-    "permissions": ["activeTab", "scripting","storage", "scripting","tabs"],
-    "content_scripts": [{
-      "matches": ["<all_urls>"],
-      
-      "js": ["content.js"],
-      "css": ["main.css"],
+  "name": "AA SF SPIDER",
+  "description": "Base Level Extension",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "hello.html",
+    "default_icon": "hello.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "scripting",
+    "tabs",
+    "cookies"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "main.css"
+      ],
       "run_at": "document_end"
-      
+    },
+    {
+      "matches": [
+        "*://*/setup/field/NewCustomFieldStageManager"
+      ],
+      "js": [
+        "sfadmin.js"
+      ],
+      "all_frames": false,
+      "css": [
+        "main.css"
+      ],
+      "match_origin_as_fallback": false,
+      "match_about_blank": false,
+      "run_at": "document_idle",
+      "world": "ISOLATED"
+    }
+  ],  
+  "commands": {
+    "testspider": {
+      "suggested_key": {
+        "windows": "Alt+Shift+Z",
+        "mac": "MacCtrl+Ctrl+Z",
+        "linux": "Alt+Shift+Z",
+        "chromeos": "Alt+Shift+Z"
       },
-      {
-        "matches": ["*://*/setup/field/NewCustomFieldStageManager"],
-        "js": ["sfadmin.js"],    
-        "all_frames": false,
-        "css": ["main.css"],
-        "match_origin_as_fallback": false,
-        "match_about_blank": false,
-        "run_at": "document_idle",
-        "world": "ISOLATED"
-      }
-   ]
-      
-      
+      "description": "test spidy"
+    }
   }
+}

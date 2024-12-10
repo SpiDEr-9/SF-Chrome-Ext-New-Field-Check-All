@@ -121,3 +121,14 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     injectContentScript();
   }
 });
+
+
+
+chrome.commands.onCommand.addListener(function (command) {
+  if (command === 'testspider') {
+      chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
+        console.log('OUTPUT : ----- '+JSON.stringify(command));
+          // showApiName(tabs[0]).then(res => console.log(res)).catch(res => console.log(res));
+      });
+  }
+});
